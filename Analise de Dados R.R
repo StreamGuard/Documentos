@@ -1,6 +1,5 @@
 # STREAMGUARD | Analise exploratoria e KPIs | Dados sinteticos
-# Execucao: abra este arquivo no RStudio e clique Source.
-# Instale ggplot2 previamente: install.packages('ggplot2')
+
 if (!requireNamespace('ggplot2', quietly = TRUE))
   stop('Instale ggplot2 primeiro.')
 library(ggplot2)
@@ -153,7 +152,7 @@ kpis <- aggregate(
 kpis <- data.frame(kpis[1:2], kpis$x)
 print(kpis)
 write.csv(kpis, 'kpis_streamguard.csv', row.names = FALSE)
-# Graficos exibidos no RStudio
+# Graficos 
 for (t in c('USO_CPU', 'USO_RAM', 'USO_DISCO')) {
   x <- droplevels(subset(d, tipo == t))
   lim <- limites[t]
@@ -333,13 +332,13 @@ for (s in levels(d$servidor_id)) {
     level = .95
   ))
 }
-# Amostragem aleatoria simples: comparar amostra a populacao FINITA observada; sem seed
+# Amostragem aleatoria simples
 cpu <- subset(d, tipo == 'USO_CPU' &
                 servidor_id == levels(d$servidor_id)[1])$valor
 cat('Media populacao finita CPU:', mean(cpu), '\n')
 for (n in c(30, 100, 300))
   cat('Amostra', n, 'media', mean(sample(cpu, n, replace = FALSE)), '\n')
-# Distribuicoes: diagnostico normal e proporcoes observadas, SEM pressupor independencia
+# Distribuicoes: diagnostico normal e proporcoes observadas
 for (s in levels(d$servidor_id)) {
   x <- subset(d, tipo == 'USO_CPU' & servidor_id == s)$valor
   cat(
